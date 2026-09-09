@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Compressor & Optimizer</title>
+    <meta name="description" content="Compress and optimize PDF files quickly and easily.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="container">
+
+        <section class="hero">
+            <span class="badge">PDF TOOL</span>
+            <h1>PDF Compressor & Optimizer</h1>
+            <p class="subtitle">
+                Reduce PDF file size while keeping your document usable and easy to share.
+            </p>
+        </section>
+
+        <section class="tool-card">
+
+            <div class="level-container" id="levelContainer">
+                <span class="section-label">Select Compression Quality</span>
+                <div class="level-grid">
+                    <button type="button" class="level-btn active" data-quality="ebook">
+                        <strong>Recommended</strong>
+                        <span>Optimal size & quality</span>
+                    </button>
+                    <button type="button" class="level-btn" data-quality="screen">
+                        <strong>Max Compress</strong>
+                        <span>Lowest size & quality</span>
+                    </button>
+                    <button type="button" class="level-btn" data-quality="printer">
+                        <strong>High Quality</strong>
+                        <span>Larger size, crisp print</span>
+                    </button>
+                </div>
+            </div>
+
+            
+            <div class="drop-zone" id="dropZone" tabindex="0" role="button" aria-label="Upload PDF file">
+                <div class="upload-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="40" height="40">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                </div>
+                <h2>Drop your PDF here</h2>
+                <p>or choose a file from your computer</p>
+                <button type="button" class="choose-btn" id="chooseBtn">Choose PDF</button>
+                <input type="file" id="pdfFile" accept=".pdf,application/pdf" hidden>
+                <small class="hint-text">PDF only • Maximum size 10 MB</small>
+            </div>
+
+           
+            <div class="file-info hidden" id="fileInfo">
+                <div class="file-details">
+                    <div class="pdf-tag">PDF</div>
+                    <div class="text-meta">
+                        <span id="fileName" class="truncate"></span>
+                        <span id="fileSize"></span>
+                    </div>
+                </div>
+                <button type="button" id="removeFileBtn" class="remove-btn" aria-label="Remove file">&times;</button>
+            </div>
+
+            
+            <button type="button" class="compress-btn" id="compressBtn" disabled>
+                Compress PDF
+            </button>
+
+            
+            <div class="loading hidden" id="loading">
+                <div class="spinner"></div>
+                <p id="loadingText">Optimizing your PDF...</p>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+
+            
+            <div class="status" id="status" role="alert"></div>
+
+            
+            <div class="result hidden" id="result">
+                <h2>🎉 Compression Complete</h2>
+                <div class="stats">
+                    <div class="stat">
+                        <span>Original</span>
+                        <strong id="originalSize">-</strong>
+                    </div>
+                    <div class="stat highlight-green">
+                        <span>Compressed</span>
+                        <strong id="compressedSize">-</strong>
+                    </div>
+                    <div class="stat badge-saved">
+                        <span>Saved</span>
+                        <strong id="savedPercent">-</strong>
+                    </div>
+                </div>
+                <a id="downloadLink" class="download-btn" href="#" download>
+                    Download Compressed PDF
+                </a>
+                <button type="button" class="reset-btn" id="resetBtn">
+                    Compress Another PDF
+                </button>
+            </div>
+
+        </section>
+
+        <footer>
+            Built with Node.js, Express, Multer & Ghostscript
+        </footer>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
