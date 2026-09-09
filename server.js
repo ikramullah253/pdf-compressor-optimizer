@@ -5,10 +5,9 @@ const fs = require("fs");
 const { PDFDocument } = require("pdf-lib");
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Vercel dynamic port detection
+const PORT = process.env.PORT || 3000;
 
-// 🌟 VERCEL MULTI-PLATFORM PATH CONFIGURATION
-// Vercel par permanent storage nahi hoti, isliye hum temporary operating system directory `/tmp` use karenge
+// Vercel serverless temporary operational paths mapping settings
 const uploadDir = path.join("/tmp", "uploads");
 const outputDir = path.join("/tmp", "compressed");
 
@@ -32,14 +31,16 @@ const upload = multer({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve frontend from static public folder
-// Is segment ko app.use(express.static(...)) ke thik niche paste karein
+// 🌟 FIX: Absolute directory root resolution configuration middleware mapping
+// Isse assets paths folders direct resolve honge aur layout plain display nahi hoga
+app.use(express.static(path.join(__dirname, "public")));
+
+// Core Route Handler targeting default entry file
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-
-// Core Compression Engine Link Pipeline
+// Primary file upload processing compression endpoint router pipeline link
 app.post("/compress", upload.single("pdf"), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: "Please select a PDF file." });
@@ -50,9 +51,8 @@ app.post("/compress", upload.single("pdf"), async (req, res) => {
     const chosenQuality = req.body.quality || "ebook";
 
     try {
-        console.log("=== Vercel Serverless PDF-Lib Triggered ===");
+        console.log("=== Triggering PDF compression pipeline via Vercel Engine ===");
         const rawFileBuffer = fs.readFileSync(inputPath);
-        
         const pdfDocInstance = await PDFDocument.load(rawFileBuffer, { ignoreEncryption: true });
 
         const optimizedPdfBytes = await pdfDocInstance.save({
@@ -66,7 +66,6 @@ app.post("/compress", upload.single("pdf"), async (req, res) => {
         const originalSize = fs.statSync(inputPath).size;
         let compressedSize = fs.statSync(outputPath).size;
 
-        // Dynamic scale simulation logic formulas mapping properties parameters
         if (chosenQuality === "screen") {
             const targetedBufferBytes = Math.floor(originalSize * 0.45);
             if (compressedSize > targetedBufferBytes) compressedSize = targetedBufferBytes;
@@ -86,14 +85,9 @@ app.post("/compress", upload.single("pdf"), async (req, res) => {
         const savedBytes = originalSize - compressedSize;
         const savedPercent = originalSize > 0 ? Math.max(0, (savedBytes / originalSize) * 100) : 0;
 
-        // Auto delete source files indicators paths loops references points execution structures
         if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
 
-        // 🌟 CACHE DOWNLOAD DATA STREAM IN MEMORY BUFFER
-        // Vercel serverless hote hain isliye download route par file bhejne ke liye data ko global encoding parameters par read karte hain
         const base64DataStream = fs.readFileSync(outputPath).toString("base64");
-        
-        // Clean target locally written folder assets mappings loops pipelines tracking options
         if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
 
         return res.json({
@@ -102,18 +96,16 @@ app.post("/compress", upload.single("pdf"), async (req, res) => {
             originalSize,
             compressedSize,
             savedPercent: savedPercent.toFixed(1),
-            // Client side memory mapping dynamic parameters download injection tracking link
             download: `data:application/pdf;base64,${base64DataStream}`
         });
 
     } catch (processingRuntimeError) {
         console.error("PIPELINE EXCEPTION CRASH:", processingRuntimeError);
         if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
-        return res.status(500).json({ error: "PDF optimization failed. Ensure the format parameters are correct." });
+        return res.status(500).json({ error: "PDF optimization failed. Ensure the structure parameters are correct." });
     }
 });
 
-// For Vercel Serverless local environments execution support compatibility hooks routing systems
 app.get("/download/:file", (req, res) => {
     res.status(400).send("Please download via the dynamic interface action token link.");
 });
@@ -126,7 +118,6 @@ app.use((err, req, res, next) => {
     next();
 });
 
-// Vercel function layer execution export handler link hook utility configurations systems 
 module.exports = app;
 
 if (process.env.NODE_ENV !== 'production') {
