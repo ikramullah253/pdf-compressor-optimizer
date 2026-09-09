@@ -1,0 +1,5 @@
+node_modules/
+uploads/*
+compressed/*
+.envgit add .
+git commit -m "Initial PDF compressor implementation"
