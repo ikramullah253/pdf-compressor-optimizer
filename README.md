@@ -76,8 +76,8 @@ week-3-task-pdf-compressor/
 ### 1. Clone the Repository
 
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_LINK>
-cd week-3-task-pdf-compressor
+git clone https://github.com/ikramullah253/pdf-compressor-optimizer.git
+cd pdf-compressor-optimizer
 ```
 
 ### 2. Install Node.js Dependencies
