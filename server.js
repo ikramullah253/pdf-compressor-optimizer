@@ -7,14 +7,13 @@ const { PDFDocument } = require("pdf-lib");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Vercel serverless temporary operational paths mapping settings
 const uploadDir = path.join("/tmp", "uploads");
 const outputDir = path.join("/tmp", "compressed");
 
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+const MAX_FILE_SIZE = 10 * 1024 * 1024; 
 
 const upload = multer({
     dest: uploadDir,
@@ -31,16 +30,14 @@ const upload = multer({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 🌟 FIX: Absolute directory root resolution configuration middleware mapping
-// Isse assets paths folders direct resolve honge aur layout plain display nahi hoga
+
 app.use(express.static(path.join(__dirname, "public")));
 
-// Core Route Handler targeting default entry file
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Primary file upload processing compression endpoint router pipeline link
+
 app.post("/compress", upload.single("pdf"), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: "Please select a PDF file." });
