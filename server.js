@@ -33,7 +33,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve frontend from static public folder
-app.use(express.static(path.join(__dirname, "public")));
+// Is segment ko app.use(express.static(...)) ke thik niche paste karein
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 
 // Core Compression Engine Link Pipeline
 app.post("/compress", upload.single("pdf"), async (req, res) => {
