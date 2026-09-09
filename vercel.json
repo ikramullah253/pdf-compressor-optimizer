@@ -12,6 +12,10 @@
       "dest": "server.js"
     },
     {
+      "src": "/download/(.*)",
+      "dest": "server.js"
+    },
+    {
       "src": "/(.*)",
       "dest": "public/$1"
     }
